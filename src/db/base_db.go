@@ -9,8 +9,8 @@ import (
 
 func Query(sql_str string) (*sql.Rows, *sql.Stmt, *sql.DB) {
 	fmt.Println("query::sql_str = ", sql_str)
-	//db, _ := sql.Open("mysql", "zxlworking:working@tcp(zxltest.zicp.vip:42278)/joke")
-	db, _ := sql.Open("mysql", "zxlworking:working@tcp(103.46.128.20:42278)/joke")
+	db, _ := sql.Open("mysql", "zxlworking:working@tcp(zxltest.zicp.vip:42278)/joke")
+	//db, _ := sql.Open("mysql", "zxlworking:working@tcp(103.46.128.20:42278)/joke")
 
 	stmt, prepare_err := db.Prepare(sql_str)
 	fmt.Println("query::prepare_err = ", prepare_err)
