@@ -9,7 +9,7 @@ import (
 
 	_ "github.com/Go-SQL-Driver/MySQL"
 
-	data "data"
+	"data"
 	base_db "db"
 )
 
@@ -19,8 +19,13 @@ func QsbkHotPicList(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("path", r.URL.Path)
 	fmt.Println("scheme", r.URL.Scheme)
 
+	var last_id = -1
+	if (len(r.Form["last_id"]) > 0) {
+		last_id, _ = strconv.Atoi(r.Form["last_id"][0])
+	}
 	page, _ := strconv.Atoi(r.Form["page"][0])
 	page_size, _ := strconv.Atoi(r.Form["page_size"][0])
+	fmt.Println("last_id", last_id)
 	fmt.Println("page", page)
 	fmt.Println("page_size", page_size)
 
@@ -34,9 +39,17 @@ func QsbkHotPicList(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("val:", strings.Join(v, ""))
 	}
 
+	var sql_where = ""
+	if (last_id > 0) {
+		start_index = 0
+		end_index = 10
+		sql_where = " WHERE id < " + strconv.Itoa(last_id) + " "
+	}
+	fmt.Println("sql_where", sql_where)
+
 	var sql_str = "SELECT " +
 		"id, author_nick_name,author_gender,author_age,author_img_url,content,thumb_img_url,stats_vote_content,stats_comment_content,stats_comment_detail_url,md5 " +
-		"FROM joke " +
+		"FROM joke " + sql_where +
 		"ORDER BY id DESC LIMIT " + strconv.Itoa(start_index) + "," + strconv.Itoa(end_index)
 
 	rows, stmt, db := base_db.Query(sql_str)
