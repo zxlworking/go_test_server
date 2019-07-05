@@ -6,6 +6,6 @@ type ResponseBaseBean struct {
 }
 
 type EvaluateSelfResponseBean struct {
-	BaseBean         ResponseBaseBean
-	EvaluateSelfInfo EvaluateSelfInfo
+	BaseBean             ResponseBaseBean
+	EvaluateSelfInfoList []EvaluateSelfInfo
 }

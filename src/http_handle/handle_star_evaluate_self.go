@@ -2,13 +2,17 @@ package http_handle
 
 import (
 	"crypto/md5"
+	"data"
 	"encoding/hex"
+	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"path/filepath"
+
+	base_db "db"
 
 	"github.com/huaweicloud/huaweicloud-sdk-go-frs/client/param"
 	"github.com/huaweicloud/huaweicloud-sdk-go-frs/client/result/common"
@@ -90,7 +94,7 @@ func StarEvaluateSelf(w http.ResponseWriter, r *http.Request) {
 
 	form := r.MultipartForm
 
-	var searchResult []common.ComplexFace
+	var evaluateSelfResponseBean data.EvaluateSelfResponseBean
 
 	for k, v := range form.File {
 		//fmt.Println("value,k,v = ", k, ",", v)
@@ -141,13 +145,34 @@ func StarEvaluateSelf(w http.ResponseWriter, r *http.Request) {
 				if err != nil {
 					fmt.Println("filepath.Abs error", err.Error())
 				} else {
-					searchResult = searchFace(absPath)
+					searchResult := searchFace(absPath)
 
 					fmt.Println(searchResult)
 					for _, item := range searchResult {
-						if item.Similarity > 0.9 {
-							// searchFaceId = item.Face.FaceId
+						searchFaceId := item.Face.FaceId
+
+						var sql_str = "SELECT " +
+							"id, star_name,star_img_url,star_detail_url,face_id " +
+							"FROM star_info WHERE face_id = '" + searchFaceId + "'"
+
+						rows, stmt, db := base_db.Query(sql_str)
+
+						var starInfoItem data.StarInfo
+						var evaluateSelfInfoItem data.EvaluateSelfInfo
+						for rows.Next() {
+							var id, star_name, star_img_url, star_detail_url, face_id string
+							rows.Scan(&id, &star_name, &star_img_url, &star_detail_url, &face_id)
+							fmt.Println("query::result = ", id, star_name, star_img_url, star_detail_url, face_id)
+
+							starInfoItem = data.StarInfo{id, star_name, star_img_url, star_detail_url, face_id}
+							evaluateSelfInfoItem.StarInfo = starInfoItem
 						}
+						evaluateSelfInfoItem.Similarity = item.Similarity
+						evaluateSelfResponseBean.EvaluateSelfInfoList = append(evaluateSelfResponseBean.EvaluateSelfInfoList, evaluateSelfInfoItem)
+
+						defer rows.Close()
+						defer stmt.Close()
+						defer db.Close()
 					}
 				}
 
@@ -155,7 +180,16 @@ func StarEvaluateSelf(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	if searchResult != nil {
-
+	if len(evaluateSelfResponseBean.EvaluateSelfInfoList) > 0 {
+		evaluateSelfResponseBean.BaseBean.Code = 0
+		evaluateSelfResponseBean.BaseBean.Desc = "success"
+	} else {
+		evaluateSelfResponseBean.BaseBean.Code = 1
+		evaluateSelfResponseBean.BaseBean.Desc = "fail"
 	}
+
+	responseResult, responseError := json.Marshal(evaluateSelfResponseBean)
+	fmt.Println("query::responseError = ", responseError)
+	fmt.Println("query::responseResult = ", string(responseResult))
+	fmt.Fprint(w, string(responseResult))
 }
