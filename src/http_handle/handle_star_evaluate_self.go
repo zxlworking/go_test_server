@@ -147,6 +147,8 @@ func StarEvaluateSelf(w http.ResponseWriter, r *http.Request) {
 				} else {
 					searchResult := searchFace(absPath)
 
+					os.Remove(absPath)
+
 					fmt.Println(searchResult)
 					for _, item := range searchResult {
 						searchFaceId := item.Face.FaceId
@@ -186,6 +188,10 @@ func StarEvaluateSelf(w http.ResponseWriter, r *http.Request) {
 	} else {
 		evaluateSelfResponseBean.BaseBean.Code = 1
 		evaluateSelfResponseBean.BaseBean.Desc = "fail"
+		var starInfoItem data.StarInfo
+		var evaluateSelfInfoItem data.EvaluateSelfInfo
+		evaluateSelfInfoItem.StarInfo = starInfoItem
+		evaluateSelfResponseBean.EvaluateSelfInfoList = append(evaluateSelfResponseBean.EvaluateSelfInfoList, evaluateSelfInfoItem)
 	}
 
 	responseResult, responseError := json.Marshal(evaluateSelfResponseBean)
