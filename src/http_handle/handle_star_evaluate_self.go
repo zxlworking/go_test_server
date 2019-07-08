@@ -147,6 +147,8 @@ func StarEvaluateSelf(w http.ResponseWriter, r *http.Request) {
 				} else {
 					searchResult := searchFace(absPath)
 
+					os.Remove(absPath)
+
 					fmt.Println(searchResult)
 					for _, item := range searchResult {
 						searchFaceId := item.Face.FaceId
