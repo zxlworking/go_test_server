@@ -80,8 +80,8 @@ func searchFace(imgPath string) []common.ComplexFace {
 func StarEvaluateSelf(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("StarEvaluateSelf::start")
 	r.ParseForm()
-	testParam := r.URL.Query()["test_param"][0]
-	fmt.Println("testParam", testParam)
+	// testParam := r.URL.Query()["test_param"][0]
+	// fmt.Println("testParam", testParam)
 
 	/**
 	底层通过调用multipartReader.ReadForm来解析
