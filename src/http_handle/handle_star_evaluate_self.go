@@ -159,18 +159,20 @@ func StarEvaluateSelf(w http.ResponseWriter, r *http.Request) {
 
 						rows, stmt, db := base_db.Query(sql_str)
 
-						var starInfoItem data.StarInfo
-						var evaluateSelfInfoItem data.EvaluateSelfInfo
 						for rows.Next() {
 							var id, star_name, star_img_url, star_detail_url, face_id string
 							rows.Scan(&id, &star_name, &star_img_url, &star_detail_url, &face_id)
 							fmt.Println("query::result = ", id, star_name, star_img_url, star_detail_url, face_id)
 
+							var starInfoItem data.StarInfo
+							var evaluateSelfInfoItem data.EvaluateSelfInfo
+
 							starInfoItem = data.StarInfo{id, star_name, star_img_url, star_detail_url, face_id}
 							evaluateSelfInfoItem.StarInfo = starInfoItem
+
+							evaluateSelfInfoItem.Similarity = item.Similarity
+							evaluateSelfResponseBean.EvaluateSelfInfoList = append(evaluateSelfResponseBean.EvaluateSelfInfoList, evaluateSelfInfoItem)
 						}
-						evaluateSelfInfoItem.Similarity = item.Similarity
-						evaluateSelfResponseBean.EvaluateSelfInfoList = append(evaluateSelfResponseBean.EvaluateSelfInfoList, evaluateSelfInfoItem)
 
 						defer rows.Close()
 						defer stmt.Close()
