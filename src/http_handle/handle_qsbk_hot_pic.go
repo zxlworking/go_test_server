@@ -49,7 +49,7 @@ func QsbkHotPicList(w http.ResponseWriter, r *http.Request) {
 
 	var sql_str = "SELECT " +
 		"id, author_nick_name,author_gender,author_age,author_img_url,content,thumb_img_url,stats_vote_content,stats_comment_content,stats_comment_detail_url,md5 " +
-		"FROM joke " + sql_where +
+		"FROM hot_pic_joke " + sql_where +
 		"ORDER BY id DESC LIMIT " + strconv.Itoa(start_index) + "," + strconv.Itoa(end_index)
 
 	rows, stmt, db := base_db.Query(sql_str)

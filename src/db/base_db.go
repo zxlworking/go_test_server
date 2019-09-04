@@ -9,9 +9,9 @@ import (
 
 func Query(sql_str string) (*sql.Rows, *sql.Stmt, *sql.DB) {
 	fmt.Println("query::sql_str = ", sql_str)
-	// db, _ := sql.Open("mysql", "root:root@tcp(127.0.0.1:3306)/star_info")
-	// db, _ := sql.Open("mysql", "zxlworking:working@tcp(zxltest.zicp.vip:42278)/joke")
-	db, open_db_err := sql.Open("mysql", ":@tcp(103.46.128.49:42278)/star_info")
+	// db, open_db_err := sql.Open("mysql", "root:root@tcp(127.0.0.1:3306)/star_info")
+	db, open_db_err := sql.Open("mysql", ":@tcp(zxltest.zicp.vip:42278)/joke")
+	//db, open_db_err := sql.Open("mysql", ":@tcp(103.46.128.49:42278)/star_info")
 	fmt.Println("query::open_db_err = ", open_db_err)
 	stmt, prepare_err := db.Prepare(sql_str)
 	fmt.Println("query::prepare_err = ", prepare_err)

@@ -25,6 +25,7 @@ func sayhelloName(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.HandleFunc("/test", sayhelloName) //设置访问的路由
 	http.HandleFunc("/test/qsbk_hot_pic/list", http_handle.QsbkHotPicList)
+	http.HandleFunc("/test/qsbk_hot_pic/detail", http_handle.QsbkHotPicDetail)
 	http.HandleFunc("/test/star/evaluate_self", http_handle.StarEvaluateSelf)
 	http.HandleFunc("/test/star/star_info_list", http_handle.StarInfoList)
 	err := http.ListenAndServe(":9090", nil) //设置监听的端口
