@@ -9,3 +9,8 @@ type EvaluateSelfResponseBean struct {
 	BaseBean             ResponseBaseBean
 	EvaluateSelfInfoList []EvaluateSelfInfo
 }
+
+type MovieInfoListResponseBean struct {
+	BaseBean      ResponseBaseBean
+	MovieInfoList []MovieInfo
+}
