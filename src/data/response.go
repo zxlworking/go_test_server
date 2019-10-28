@@ -14,3 +14,8 @@ type MovieInfoListResponseBean struct {
 	BaseBean      ResponseBaseBean
 	MovieInfoList []MovieInfo
 }
+
+type MovieDetailInfoListResponseBean struct {
+	BaseBean            ResponseBaseBean
+	MovieDetailInfoList []MovieDetailInfo
+}

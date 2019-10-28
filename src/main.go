@@ -29,6 +29,7 @@ func main() {
 	http.HandleFunc("/test/star/evaluate_self", http_handle.StarEvaluateSelf)
 	http.HandleFunc("/test/star/star_info_list", http_handle.StarInfoList)
 	http.HandleFunc("/test/maoyan/movie_list", http_handle.MaoYanMovieList)
+	http.HandleFunc("/test/maoyan/movie_detail", http_handle.MaoYanMovieDetail)
 	err := http.ListenAndServe(":9090", nil) //设置监听的端口
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
