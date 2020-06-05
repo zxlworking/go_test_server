@@ -1,4 +1,4 @@
 /src/github.com
 /pkg
-/.idea
-/src/src
+.idea/
+/src/src.debug
