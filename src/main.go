@@ -22,12 +22,21 @@ func sayhelloName(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("val:", strings.Join(v, ""))
 	}
 	fmt.Fprintf(w, "Hello astaxie!") //这个写入到w的是输出到客户端的
+
+	// 获取请求报文的内容长度
+	len := r.ContentLength
+	// 新建一个字节切片，长度与请求报文的内容长度相同
+	body := make([]byte, len)
+	// 读取 r 的请求主体，并将具体内容读入 body 中
+	r.Body.Read(body)
+	// 将字节切片内容写入相应报文
+	fmt.Println("body:", string(body))
 }
 
 func main() {
 	http.HandleFunc("/test", sayhelloName) //设置访问的路由
-	http.HandleFunc("/test/qsbk_hot_pic/list", http_handle.QsbkHotPicList)
-	http.HandleFunc("/test/qsbk_hot_pic/detail", http_handle.QsbkHotPicDetail)
+	http.HandleFunc("/test/qsbk/list", http_handle.QsbkList)
+	http.HandleFunc("/test/qsbk/detail", http_handle.QsbkDetail)
 	http.HandleFunc("/test/star/evaluate_self", http_handle.StarEvaluateSelf)
 	http.HandleFunc("/test/star/star_info_list", http_handle.StarInfoList)
 	http.HandleFunc("/test/maoyan/movie_list", http_handle.MaoYanMovieList)
