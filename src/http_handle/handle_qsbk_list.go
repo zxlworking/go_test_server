@@ -49,7 +49,7 @@ func QsbkList(w http.ResponseWriter, r *http.Request) {
 		if joke_type > 0 {
 			sql_where = sql_where + " AND thumb_img_url != '' "
 		} else {
-			sql_where = sql_where + " AND thumb_img_url == '' "
+			sql_where = sql_where + " AND thumb_img_url = '' "
 		}
 	} else {
 		if joke_type > 0 {

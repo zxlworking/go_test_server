@@ -37,6 +37,7 @@ func main() {
 	http.HandleFunc("/test", sayhelloName) //设置访问的路由
 	http.HandleFunc("/test/qsbk/list", http_handle.QsbkList)
 	http.HandleFunc("/test/qsbk/detail", http_handle.QsbkDetail)
+	http.HandleFunc("/test/qsbk/comment/list", http_handle.QsbkCommentList)
 	http.HandleFunc("/test/star/evaluate_self", http_handle.StarEvaluateSelf)
 	http.HandleFunc("/test/star/star_info_list", http_handle.StarInfoList)
 	http.HandleFunc("/test/maoyan/movie_list", http_handle.MaoYanMovieList)
