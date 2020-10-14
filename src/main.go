@@ -42,14 +42,12 @@ func main() {
 	http.HandleFunc("/test/star/star_info_list", http_handle.StarInfoList)
 	http.HandleFunc("/test/maoyan/movie_list", http_handle.MaoYanMovieList)
 	http.HandleFunc("/test/maoyan/movie_detail", http_handle.MaoYanMovieDetail)
+	http.HandleFunc("/test/upload_file", http_handle.UploadFile)
 
-	temp_path, _ := os.Getwd()
-	temp_path = temp_path + "/src/temp_file"
+	temp_path := "/home/mi/zxl/workspace/my_github/go_test_server/src/temp_file/"
 	fmt.Println("temp_path = ", temp_path)
 
 	p, _ := filepath.Abs(filepath.Dir(os.Args[0]))
-	// p, _ := filepath.Abs(filepath.Dir("/Users/zxl/Documents/workspace/go_test_server/src/temp_file"))
-	// p, _ := filepath.Abs(filepath.Dir(temp_path))
 	http.Handle("/", http.FileServer(http.Dir(p)))
 
 	err := http.ListenAndServe(":9090", nil) //设置监听的端口
